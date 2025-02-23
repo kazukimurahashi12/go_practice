@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"fmt"
+)
 
 // ジェネリック型エイリアス
 type MyAlias[T int | string] = T
@@ -10,6 +13,8 @@ func main() {
 	practice1()
 	fmt.Println("\n--pracice2--")
 	practice2()
+	fmt.Println("\n--pracice3--")
+	practice3()
 }
 
 func practice1() {
@@ -52,4 +57,16 @@ func practice2() {
 	for _, msg := range messages {
 		fmt.Println(msg)
 	}
+}
+
+type Data struct {
+	ID   MyAlias[int]    `json:"id"`
+	Name MyAlias[string] `json:"name"`
+}
+
+func practice3() {
+	jsonData := `{"id": 123, "name": "Go 1.24"}`
+	var data Data
+	json.Unmarshal([]byte(jsonData), &data)
+	fmt.Println(data)
 }
