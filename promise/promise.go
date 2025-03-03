@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -23,6 +24,12 @@ func processImage(url string) {
 	time.Sleep(3 * time.Second)
 
 	fmt.Println("Image processed:", url)
+
+	//TODO 完了通知　Firebase Cloud Messaging?
+	// Node.js に通知を送る
+	http.Post("http://node-backend:3000/notify", "application/json",
+		strings.NewReader(fmt.Sprintf(`{"imageUrl": "%s", "status": "done"}`, url)))
+
 }
 
 func imageProcessingHandler(w http.ResponseWriter, r *http.Request) {
